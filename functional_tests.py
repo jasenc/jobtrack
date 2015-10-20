@@ -1,6 +1,7 @@
 from selenium import webdriver
 import unittest
 
+
 class NewVisitorTest(unittest.TestCase):
 
 	def setUp(self):
@@ -10,14 +11,16 @@ class NewVisitorTest(unittest.TestCase):
 		self.browser.quit()
 
 	def test_can_start_a_list_and_retrieve_it_later(self):
-		# Adeline wakes up in the middle of the night and starts worrrying about her job
-		# search, she isn't tied down and plans on applying to a lot of different cities
-		# throughout the country. She hears about this new application and figures even
-		# if it is a minimum viable application it would still be useful.
+		# Adeline wakes up in the middle of the night and starts worrrying about
+		# her job search, she isn't tied down and plans on applying to a lot of
+		# different cities throughout the country. She hears about this new
+		# application and figures even if it is a minimum viable application it
+		# would still be useful.
 		self.browser.get('http://localhost:8000')
 		self.browser.implicitly_wait(3)
 
-		# She notices the page title and header properly mention the name of the site. 
+		# She notices the page title and header properly mention the name of the
+		# site.
 		self.assertIn('Job Track', self.browser.title)
 		self.fail("Finish the test!")
 
@@ -53,9 +56,9 @@ class NewVisitorTest(unittest.TestCase):
 
 		# The page updates again, and now shows both items on her list.
 
-		# Adeline wonders whether the site will remember her list. Then she sees that
-		# the site has generated a unique URL for her -- there is some explanatory text
-		# to that effect.
+		# Adeline wonders whether the site will remember her list. Then she sees
+		# that the site has generated a unique URL for her -- there is some
+		# explanatory text to that effect.
 
 		# She visits that URL - her applications are still there.
 

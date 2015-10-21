@@ -24,7 +24,7 @@ class NewVisitorTest(unittest.TestCase):
 		# site.
 		self.assertIn('Job Track', self.browser.title)
 		header_text = self.browser.find_element_by_tag_name('h1').text
-		self.assertIn('Job Track', header_text)
+		self.assertIn('Applications', header_text)
 
 		# She is invited by an application item straight away.
 		inputbox = self.browser.find_element_by_id('id_new_application')
@@ -53,7 +53,8 @@ class NewVisitorTest(unittest.TestCase):
 		table = self.browser.find_element_by_id('id_application_table')
 		rows = table.find_elements_by_tag_name('tr')
 		self.assertTrue(
-			any(row.text == '1: Meridian' for row in rows)
+			any(row.text == '1: Meridian' for row in rows),
+			"New application did not appear in table"
 		)
 
 		# There is still a form for a new application inviting her to add more.

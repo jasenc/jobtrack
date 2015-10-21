@@ -6,7 +6,10 @@
   </head>
   <body>
     <h1>Your Applications List</h1>
-    <input id="id_new_application" placeholder="Enter an application"/>
+    <form method="POST">
+      <input name="item_text" id="id_new_application" placeholder="Enter an application" />
+      {% csrf_token %}
+    </form>
     <table id="id_application_table">
     </table>
   </body>

@@ -1,4 +1,5 @@
 from selenium import webdriver
+from selenium.webdriver.common.keys import Keys
 import unittest
 
 
@@ -22,11 +23,18 @@ class NewVisitorTest(unittest.TestCase):
 		# She notices the page title and header properly mention the name of the
 		# site.
 		self.assertIn('Job Track', self.browser.title)
-		self.fail("Finish the test!")
+		header_text = self.browser.find_element_by_tag_name('h1').text
+		self.assertIn('Job Track', header_text)
 
 		# She is invited by an application item straight away.
+		inputbox = self.browser.find_element_by_id('id_new_application')
+		self.assertEqual(
+			inputbox.get_attribute('placeholder'),
+			'Enter an application'
+		)
 
 		# She types "Meridian" into the company name of the application.
+		inputbox.send_keys('Meridian')
 
 		# She types "Python Developer" into the position name.
 
@@ -40,9 +48,17 @@ class NewVisitorTest(unittest.TestCase):
 
 		# When she presses enter the page updates, and now the page lists:
 		# 1. Meridian - Python Developer
+		inputbox.send_keys(Keys.ENTER)
+
+		table = self.browser.find_element_by_id('id_application_table')
+		rows = table.find_elements_by_tag_name('tr')
+		self.assertTrue(
+			any(row.text == '1: Meridian' for row in rows)
+		)
 
 		# There is still a form for a new application inviting her to add more.
 		# She types "Facebook" into the company name of the application.
+		self.fail("Finish the test!")
 
 		# She types "React Developer" into the position name.
 

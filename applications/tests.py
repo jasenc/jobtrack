@@ -26,6 +26,10 @@ class HomePageTest(TestCase):
 
         response = home_page(request)
 
+        self.assertEqual(Application.objects.count(), 1)
+        new_application = Application.objects.first()
+        self.assertEqual(new_application.company, 'A new application')
+
         self.assertIn('A new application', response.content.decode())
         expected_html = render_to_string(
             'home.html',

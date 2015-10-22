@@ -1,9 +1,13 @@
 from django.shortcuts import render
-from django.http import HttpResponse
+from applications.models import Application
 
 
 # Create your views here.
 def home_page(request):
+    application = Application()
+    application.company = request.POST.get('application_text', '')
+    application.save()
+
     return render(request, 'home.html', {
-        'new_application_text': request.POST.get('application_text', ''),
+        'new_application_text': application.company
     })

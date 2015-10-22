@@ -4,6 +4,7 @@ from django.http import HttpRequest
 from django.template.loader import render_to_string
 
 from applications.views import home_page
+from applications.models import Application
 
 
 class HomePageTest(TestCase):
@@ -31,3 +32,25 @@ class HomePageTest(TestCase):
             {'new_application_text': 'A new application'}
         )
         self.assertEqual(response.content.decode(), expected_html)
+
+
+class ApplicationModelTest(TestCase):
+
+    def test_saving_and_retrieving_applications(self):
+        first_application = Application()
+        first_application.company = 'The first (ever) application'
+        first_application.save()
+
+        second_application = Application()
+        second_application.company = 'The second application'
+        second_application.save()
+
+        saved_applications = Application.objects.all()
+        self.assertEqual(saved_applications.count(), 2)
+
+        first_saved_application = saved_applications[0]
+        second_saved_application = saved_applications[1]
+        self.assertEqual(first_saved_application.company,
+                         'The first (ever) application')
+        self.assertEqual(second_saved_application.company,
+                         'The second application')

@@ -11,7 +11,12 @@ class NewVisitorTest(unittest.TestCase):
     def tearDown(self):
         self.browser.quit()
 
-    def test_can_start_a_list_and_retrieve_it_later(self):
+    def check_for_row_in_application_table(self, row_text):
+        table = self.browser.find_element_by_id('id_application_table')
+        rows = table.find_elements_by_tag_name('tr')
+        self.assertIn(row_text, [row.text for row in rows])
+
+    def test_can_start_an_application_and_retrieve_it_later(self):
         # Adeline wakes up in the middle of the night and starts worrrying
         # about her job search, she isn't tied down and plans on applying to a
         # lot of different cities throughout the country. She hears about this
@@ -50,11 +55,7 @@ class NewVisitorTest(unittest.TestCase):
         # When she presses enter the page updates, and now the page lists:
         # 1. Meridian - Python Developer
         inputbox.send_keys(Keys.ENTER)
-
-        table = self.browser.find_element_by_id('id_application_table')
-        rows = table.find_elements_by_tag_name('tr')
-
-        self.assertIn('1: Meridian', [row.text for row in rows])
+        self.check_for_row_in_application_table('1: Meridian')
 
         # There is still a form for a new application inviting her to add more.
         # She types "Facebook" into the company name of the application.
@@ -74,11 +75,8 @@ class NewVisitorTest(unittest.TestCase):
         # form.
 
         # The page updates again, and now shows both items on her list.
-        table = self.browser.find_element_by_id('id_application_table')
-        rows = table.find_elements_by_tag_name('tr')
-
-        self.assertIn('1: Meridian', [row.text for row in rows])
-        self.assertIn('2: Facebook', [row.text for row in rows])
+        self.check_for_row_in_application_table('1: Meridian')
+        self.check_for_row_in_application_table('2: Facebook')
         # Adeline wonders whether the site will remember her list. Then she
         # sees that the site has generated a unique URL for her -- there is
         # some explanatory text to that effect.

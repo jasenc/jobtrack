@@ -11,7 +11,9 @@
       {% csrf_token %}
     </form>
     <table id="id_application_table">
-      <tr><td>1: {{ new_application_company }}</td></tr>
+      {% for application in applications %}
+      <tr><td>1: {{ application.company }}</td></tr>
+      {% endfor %}
     </table>
   </body>
 </html>

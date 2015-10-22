@@ -7,11 +7,11 @@
   <body>
     <h1>Your Applications List</h1>
     <form method="POST">
-      <input name="item_text" id="id_new_application" placeholder="Enter an application" />
+      <input name="application_text" id="id_new_application" placeholder="Enter an application" />
       {% csrf_token %}
     </form>
     <table id="id_application_table">
-      <tr><td>{{ new_application_text }}</td></tr>
+      <tr><td>1: {{ new_application_text }}</td></tr>
     </table>
   </body>
 </html>

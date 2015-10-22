@@ -53,15 +53,14 @@ class NewVisitorTest(unittest.TestCase):
 
         table = self.browser.find_element_by_id('id_application_table')
         rows = table.find_elements_by_tag_name('tr')
-        self.assertTrue(
-            any(row.text == '1: Meridian' for row in rows),
-            "New application did not appear in table -- its text was:\n\
-            {0}".format(table.text)
-        )
+
+        self.assertIn('1: Meridian', [row.text for row in rows])
 
         # There is still a form for a new application inviting her to add more.
         # She types "Facebook" into the company name of the application.
-        self.fail("Finish the test!")
+        inputbox = self.browser.find_element_by_id('id_new_application')
+        inputbox.send_keys('Facebook')
+        inputbox.send_keys(Keys.ENTER)
 
         # She types "React Developer" into the position name.
 
@@ -75,10 +74,15 @@ class NewVisitorTest(unittest.TestCase):
         # form.
 
         # The page updates again, and now shows both items on her list.
+        table = self.browser.find_element_by_id('id_application_table')
+        rows = table.find_elements_by_tag_name('tr')
 
+        self.assertIn('1: Meridian', [row.text for row in rows])
+        self.assertIn('2: Facebook', [row.text for row in rows])
         # Adeline wonders whether the site will remember her list. Then she
         # sees that the site has generated a unique URL for her -- there is
         # some explanatory text to that effect.
+        self.fail("Finish the test!")
 
         # She visits that URL - her applications are still there.
 

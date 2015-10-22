@@ -1,13 +1,13 @@
-from django.shortcuts import render
+from django.shortcuts import redirect, render
 from applications.models import Application
 
 
 # Create your views here.
 def home_page(request):
-    application = Application()
-    application.company = request.POST.get('application_company', '')
-    application.save()
+    if request.method == 'POST':
+        Application.objects.create(
+            company=request.POST['application_company']
+        )
+        return redirect('/')
 
-    return render(request, 'home.html', {
-        'new_application_company': application.company
-    })
+    return render(request, 'home.html')

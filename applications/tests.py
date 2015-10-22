@@ -30,12 +30,20 @@ class HomePageTest(TestCase):
         new_application = Application.objects.first()
         self.assertEqual(new_application.company, 'A new application')
 
-        self.assertIn('A new application', response.content.decode())
-        expected_html = render_to_string(
-            'home.html',
-            {'new_application_company': 'A new application'}
-        )
-        self.assertEqual(response.content.decode(), expected_html)
+    def test_home_page_redirects_after_POST(self):
+        request = HttpRequest()
+        request.method = 'POST'
+        request.POST['application_company'] = 'A new application'
+
+        response = home_page(request)
+
+        self.assertEqual(response.status_code, 302)
+        self.assertEqual(response['location'], '/')
+
+    def test_home_page_only_saves_items_when_necessary(self):
+        request = HttpRequest()
+        home_page(request)
+        self.assertEqual(Application.objects.count(), 0)
 
 
 class ApplicationModelTest(TestCase):

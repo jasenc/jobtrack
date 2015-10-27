@@ -71,13 +71,13 @@ class ApplicationModelTest(TestCase):
 
 class ApplicationViewTest(TestCase):
 
-    def test_displays_all_items(self):
+    def test_displays_all_applications(self):
         # Create an object
         Application.objects.create(company='appy 1')
         Application.objects.create(company='appy 2')
 
         # Pass our request through the home_page
-        response = self.client.get('/applications/the-only-applications-in-the-world')  # noqa
+        response = self.client.get('/applications/the-only-applications-in-the-world/')  # noqa
         # Confirm the first object is in the decoded content of the response.
         self.assertContains(response, 'appy 1')
         self.assertContains(response, 'appy 2')

@@ -9,7 +9,7 @@ def home_page(request):
         # create a new application object
         Application.objects.create(
             # while setting the company of the application equal to the value
-            # supplier by the POST form.
+            # supplied by the POST form.
             company=request.POST['application_company']
         )
         # Then redirect back to the home page.
@@ -28,3 +28,10 @@ def view_applications(request):
     # Otherwise render a GET request of the home page and pass all of the
     # applications along.
     return render(request, 'applications.html', {'applications': applications})
+
+
+def new_application(request):
+    Application.objects.create(
+        company=request.POST['application_company']
+    )
+    return redirect('/applications/the-only-applications-in-the-world')

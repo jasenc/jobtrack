@@ -83,6 +83,5 @@ class NewApplicationTest(TestCase):
             data={'application_company': 'A new application'}
         )
 
-        self.assertEqual(response.status_code, 302)
-        self.assertEqual(response['location'],
-                         '/applications/the-only-applications-in-the-world')
+        self.assertRedirect(response,
+                            '/applications/the-only-applications-in-the-world')

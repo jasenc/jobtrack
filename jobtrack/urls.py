@@ -19,6 +19,7 @@ from applications import views
 
 urlpatterns = [
     url(r'^$', views.home_page, name='home'),
+    url(r'^applications/new$', views.new_application, name='new_application'),
     url(r'^applications/the-only-applications-in-the-world/$',
         views.view_applications, name='view_applications'),
     # url(r'^admin/', include(admin.site.urls)),

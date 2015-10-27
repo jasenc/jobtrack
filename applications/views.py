@@ -20,4 +20,4 @@ def new_application(request):
         company=request.POST['application_company']
     )
     # Redirect to a unique URL.
-    return redirect('/applications/the-only-applications-in-the-world')
+    return redirect('/applications/the-only-applications-in-the-world/')

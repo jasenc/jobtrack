@@ -78,5 +78,5 @@ class NewApplicationTest(TestCase):
             data={'application_company': 'A new application'}
         )
 
-        self.assertRedirect(response,
-                            '/applications/the-only-applications-in-the-world')
+        self.assertRedirects(response,
+                            '/applications/the-only-applications-in-the-world/')

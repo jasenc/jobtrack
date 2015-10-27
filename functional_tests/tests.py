@@ -55,6 +55,9 @@ class NewVisitorTest(LiveServerTestCase):
         # When she presses enter the page updates, and now the page lists:
         # 1. Meridian - Python Developer
         inputbox.send_keys(Keys.ENTER)
+        adeline_list_url = self.browser.current_url
+        ## Use assertRegex to check REST URLs
+        self.assertRegex(adeline_list_url, '/lists/.+')
         self.check_for_row_in_application_table('1: Meridian')
 
         # There is still a form for a new application inviting her to add more.
@@ -77,11 +80,33 @@ class NewVisitorTest(LiveServerTestCase):
         # The page updates again, and now shows both items on her list.
         self.check_for_row_in_application_table('1: Meridian')
         self.check_for_row_in_application_table('2: Facebook')
-        # Adeline wonders whether the site will remember her list. Then she
-        # sees that the site has generated a unique URL for her -- there is
-        # some explanatory text to that effect.
-        self.fail("Finish the test!")
 
-        # She visits that URL - her applications are still there.
+        # Now a new user, Francis, comes along to the site.
 
-        # Satisfied, she goes back to sleep
+        ## We use a new browser session to make sure that no information
+        # of Adeline's is coming through from cookies.
+        self.browser.quit()
+        self.browser = webdriver.Firefox()
+
+        # Francis vists the home page. There is no sign of Adeline's list.
+        self.browser.get(self.live_server_url)
+        page_text = self.browser.find_element_by_tag_name('body').text
+        self.assertNotIn('Meridian', page_text)
+        self.assertNotIn('Facebook', page_text)
+
+        # Francis starts a new list by entering a new application.
+        inputbox = self.browser.find_element_by_id('id_new_application')
+        inputbox.send_keys('Google')
+        inputbox.send_keys(Keys.ENTER)
+
+        # Francis gets his own unqiue URL
+        francis_list_url = self.browser.current_url
+        self.assertRegex(francis_list_url, '/lists/.+')
+        self.assertNotEqual(francis_list_url, adeline_list_url)
+
+        # Again, there is no trace of Adeline's list
+        page_text = self.browser.find_element_by_tag_name('body').text
+        self.assertNotIn('Meridian', page_text)
+        self.assertNotIn('Facebook', page_text)
+
+        # Satisfied, they both go back to sleep.

@@ -6,7 +6,7 @@
   </head>
   <body>
     <h1>Start an Applications List</h1>
-    <form method="POST">
+    <form method="POST" action="/applications/new">
       <input name="application_company" id="id_new_application" placeholder="Enter an application" />
       {% csrf_token %}
     </form>

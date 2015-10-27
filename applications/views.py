@@ -19,7 +19,7 @@ def home_page(request):
     applications = Application.objects.all()
     # Otherwise render a GET request of the home page and pass all of the
     # applications along.
-    return render(request, 'home.html', {'applications': applications})
+    return render(request, 'home.html')
 
 
 def view_applications(request):
@@ -27,4 +27,4 @@ def view_applications(request):
     applications = Application.objects.all()
     # Otherwise render a GET request of the home page and pass all of the
     # applications along.
-    return render(request, 'home.html', {'applications': applications})
+    return render(request, 'applications.html', {'applications': applications})

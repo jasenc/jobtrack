@@ -57,7 +57,7 @@ class NewVisitorTest(LiveServerTestCase):
         inputbox.send_keys(Keys.ENTER)
         adeline_list_url = self.browser.current_url
         ## Use assertRegex to check REST URLs
-        self.assertRegex(adeline_list_url, '/lists/.+')
+        self.assertRegex(adeline_list_url, '/applications/.+')
         self.check_for_row_in_application_table('1: Meridian')
 
         # There is still a form for a new application inviting her to add more.
@@ -101,7 +101,7 @@ class NewVisitorTest(LiveServerTestCase):
 
         # Francis gets his own unqiue URL
         francis_list_url = self.browser.current_url
-        self.assertRegex(francis_list_url, '/lists/.+')
+        self.assertRegex(francis_list_url, '/applications/.+')
         self.assertNotEqual(francis_list_url, adeline_list_url)
 
         # Again, there is no trace of Adeline's list

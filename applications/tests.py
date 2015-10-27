@@ -19,28 +19,6 @@ class HomePageTest(TestCase):
         expected_html = render_to_string('home.html')
         self.assertEqual(response.content.decode(), expected_html)
 
-    def test_home_page_can_save_a_POST_request(self):
-        request = HttpRequest()
-        request.method = 'POST'
-        request.POST['application_company'] = 'A new application'
-
-        response = home_page(request)
-
-        self.assertEqual(Application.objects.count(), 1)
-        new_application = Application.objects.first()
-        self.assertEqual(new_application.company, 'A new application')
-
-    def test_home_page_redirects_after_POST(self):
-        request = HttpRequest()
-        request.method = 'POST'
-        request.POST['application_company'] = 'A new application'
-
-        response = home_page(request)
-
-        self.assertEqual(response.status_code, 302)
-        self.assertEqual(response['location'],
-                         '/applications/the-only-applications-in-the-world')
-
     def test_home_page_only_saves_items_when_necessary(self):
         request = HttpRequest()
         home_page(request)
@@ -85,3 +63,26 @@ class ApplicationViewTest(TestCase):
         # Confirm the first object is in the decoded content of the response.
         self.assertContains(response, 'appy 1')
         self.assertContains(response, 'appy 2')
+
+
+class NewApplicationTest(TestCase):
+
+    def test_saving_a_POST_request(self):
+        self.client.post(
+            '/applications/new',
+            data={'application_company': 'A new application'}
+        )
+
+        self.assertEqual(Application.objects.count(), 1)
+        new_application = Application.objects.first()
+        self.assertEqual(new_application.company, 'A new application')
+
+    def test_redirects_after_POST(self):
+        response = self.client.post(
+            '/applications/new',
+            data={'application_company': 'A new application'}
+        )
+
+        self.assertEqual(response.status_code, 302)
+        self.assertEqual(response['location'],
+                         '/applications/the-only-applications-in-the-world')

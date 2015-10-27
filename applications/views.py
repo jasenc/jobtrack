@@ -13,7 +13,7 @@ def home_page(request):
             company=request.POST['application_company']
         )
         # Then redirect back to the home page.
-        return redirect('/')
+        return redirect('/applications/the-only-applications-in-the-world')
 
     # Get all of the applications,
     applications = Application.objects.all()

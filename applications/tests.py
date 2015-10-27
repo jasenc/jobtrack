@@ -46,21 +46,6 @@ class HomePageTest(TestCase):
         home_page(request)
         self.assertEqual(Application.objects.count(), 0)
 
-    def test_home_page_displays_all_list_items(self):
-        # Create an object
-        Application.objects.create(company='appy 1')
-        # Create a second object
-        Application.objects.create(company='appy 2')
-
-        # Make an HTTP request
-        request = HttpRequest()
-        # Pass our request through the home_page
-        response = home_page(request)
-        # Confirm the first object is in the decoded content of the response.
-        self.assertIn('appy 1', response.content.decode())
-        # Confirm the first object is in the decoded content of the response.
-        self.assertIn('appy 2', response.content.decode())
-
 
 class ApplicationModelTest(TestCase):
 
@@ -82,3 +67,17 @@ class ApplicationModelTest(TestCase):
                          'The first (ever) application')
         self.assertEqual(second_saved_application.company,
                          'The second application')
+
+
+class ApplicationViewTest(TestCase):
+
+    def test_displays_all_items(self):
+        # Create an object
+        Application.objects.create(company='appy 1')
+        Application.objects.create(company='appy 2')
+
+        # Pass our request through the home_page
+        response = self.client.get('/applications/the-only-applications-in-the-world')  # noqa
+        # Confirm the first object is in the decoded content of the response.
+        self.assertContains(response, 'appy 1')
+        self.assertContains(response, 'appy 2')

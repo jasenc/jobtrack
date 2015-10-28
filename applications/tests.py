@@ -55,21 +55,30 @@ class ListAndApplicationModelTest(TestCase):
 class ApplicationViewTest(TestCase):
 
     def test_uses_application_template(self):
-        response = self.client.get('/applications/the-only-applications-in-the-world/')  # noqa
+        appList = AppList.objects.create()
+        response = self.client.get('/applications/{0}/'.format(appList.id))
         self.assertTemplateUsed(response, 'applications.html')
 
-    def test_displays_all_applications(self):
+    def test_displays_only__correct_applications(self):
         # Create an appList to hold all of the applications.
-        appList = AppList.objects.create()
+        correct_appList = AppList.objects.create()
         # Create an object
-        Application.objects.create(company='appy 1', app_list=appList)
-        Application.objects.create(company='appy 2', app_list=appList)
+        Application.objects.create(company='appy 1', app_list=correct_appList)
+        Application.objects.create(company='appy 2', app_list=correct_appList)
+
+        wrong_appList = AppList.objects.create()
+        Application.objects.create(company='other application 1',
+                                   app_list=wrong_appList)
+        Application.objects.create(company='other application 2',
+                                   app_list=wrong_appList)
 
         # Pass our request through the home_page
-        response = self.client.get('/applications/the-only-applications-in-the-world/')  # noqa
+        response = self.client.get('/applications/{0}/'.format(correct_appList.id))  # noqa
         # Confirm the first object is in the decoded content of the response.
         self.assertContains(response, 'appy 1')
         self.assertContains(response, 'appy 2')
+        self.assertNotContains(response, 'other application 1')
+        self.assertNotContains(response, 'other application 2')
 
 
 class NewApplicationTest(TestCase):
@@ -89,6 +98,6 @@ class NewApplicationTest(TestCase):
             '/applications/new',
             data={'application_company': 'A new application'}
         )
-
+        new_appList = AppList.objects.first()
         self.assertRedirects(response,
-                            '/applications/the-only-applications-in-the-world/')
+                             '/applications/{0}/'.format(new_appList.id))

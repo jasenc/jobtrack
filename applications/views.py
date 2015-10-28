@@ -9,10 +9,7 @@ def home_page(request):
 
 def view_applications(request, app_list_id):
     appList = AppList.objects.get(id=app_list_id)
-    # Get all of the applications,
-    applications = Application.objects.filter(app_list=app_list_id)
-    # and pass them along to the applications template.
-    return render(request, 'applications.html', {'applications': applications})
+    return render(request, 'applications.html', {'appList': appList})
 
 
 def new_application(request):

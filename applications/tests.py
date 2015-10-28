@@ -80,6 +80,13 @@ class ApplicationViewTest(TestCase):
         self.assertNotContains(response, 'other application 1')
         self.assertNotContains(response, 'other application 2')
 
+    def test_passes_correct_list_to_template(self):
+        other_list = AppList.objects.create()
+        correct_list = AppList.objects.create()
+        response = self.client.get(
+            '/applications/{0}/'.format(correct_list.id))
+        self.assertEqual(response.context['appList'], correct_list)
+
 
 class NewApplicationTest(TestCase):
 

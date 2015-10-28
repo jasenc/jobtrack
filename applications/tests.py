@@ -4,7 +4,7 @@ from django.http import HttpRequest
 from django.template.loader import render_to_string
 
 from applications.views import home_page
-from applications.models import Application
+from applications.models import Application, AppList
 
 
 class HomePageTest(TestCase):
@@ -20,16 +20,24 @@ class HomePageTest(TestCase):
         self.assertEqual(response.content.decode(), expected_html)
 
 
-class ApplicationModelTest(TestCase):
+class ListAndApplicationModelTest(TestCase):
 
     def test_saving_and_retrieving_applications(self):
+        appList = AppList()
+        appList.save()
+
         first_application = Application()
         first_application.company = 'The first (ever) application'
+        first_application.app_list = appList
         first_application.save()
 
         second_application = Application()
         second_application.company = 'The second application'
+        second_application.app_list = appList
         second_application.save()
+
+        saved_app_list = AppList.objects.first()
+        self.assertEqual(saved_app_list, appList)
 
         saved_applications = Application.objects.all()
         self.assertEqual(saved_applications.count(), 2)
@@ -38,8 +46,10 @@ class ApplicationModelTest(TestCase):
         second_saved_application = saved_applications[1]
         self.assertEqual(first_saved_application.company,
                          'The first (ever) application')
+        self.assertEqual(first_saved_application.app_list, appList)
         self.assertEqual(second_saved_application.company,
                          'The second application')
+        self.assertEqual(second_saved_application.app_list, appList)
 
 
 class ApplicationViewTest(TestCase):
@@ -49,9 +59,11 @@ class ApplicationViewTest(TestCase):
         self.assertTemplateUsed(response, 'applications.html')
 
     def test_displays_all_applications(self):
+        # Create an appList to hold all of the applications.
+        appList = AppList.objects.create()
         # Create an object
-        Application.objects.create(company='appy 1')
-        Application.objects.create(company='appy 2')
+        Application.objects.create(company='appy 1', app_list=appList)
+        Application.objects.create(company='appy 2', app_list=appList)
 
         # Pass our request through the home_page
         response = self.client.get('/applications/the-only-applications-in-the-world/')  # noqa

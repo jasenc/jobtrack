@@ -1,5 +1,5 @@
 from django.shortcuts import redirect, render
-from applications.models import Application
+from applications.models import Application, AppList
 
 
 # Create your views here.
@@ -15,9 +15,11 @@ def view_applications(request):
 
 
 def new_application(request):
+    appList = AppList.objects.create()
     # Get the company of the application supplied by the form's POST request.
     Application.objects.create(
-        company=request.POST['application_company']
+        company=request.POST['application_company'],
+        app_list = appList
     )
     # Redirect to a unique URL.
     return redirect('/applications/the-only-applications-in-the-world/')

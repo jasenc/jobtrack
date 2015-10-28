@@ -24,3 +24,10 @@ def new_application(request):
     )
     # Redirect to a unique URL.
     return redirect('/applications/{0}/'.format(appList.id))
+
+
+def add_application(request, app_list_id):
+    appList = AppList.objects.get(id=app_list_id)
+    Application.objects.create(company=request.POST['application_company'],
+                               app_list=appList)
+    return redirect('/applications/{0}/'.format(appList.id))

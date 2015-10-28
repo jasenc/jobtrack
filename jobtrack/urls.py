@@ -20,7 +20,9 @@ from applications import views
 urlpatterns = [
     url(r'^$', views.home_page, name='home'),
     url(r'^applications/new$', views.new_application, name='new_application'),
-    url(r'^applications/(.+)/$', views.view_applications,
+    url(r'^applications/(\d+)/$', views.view_applications,
         name='view_applications'),
+    url(r'^applications/(\d+)/add_application$', views.add_application,
+        name='add_application'),
     # url(r'^admin/', include(admin.site.urls)),
 ]

@@ -61,19 +61,19 @@ class ApplicationViewTest(TestCase):
 
     def test_displays_only__correct_applications(self):
         # Create an appList to hold all of the applications.
-        correct_appList = AppList.objects.create()
+        correct_list = AppList.objects.create()
         # Create an object
-        Application.objects.create(company='appy 1', app_list=correct_appList)
-        Application.objects.create(company='appy 2', app_list=correct_appList)
+        Application.objects.create(company='appy 1', app_list=correct_list)
+        Application.objects.create(company='appy 2', app_list=correct_list)
 
-        wrong_appList = AppList.objects.create()
+        wrong_list = AppList.objects.create()
         Application.objects.create(company='other application 1',
-                                   app_list=wrong_appList)
+                                   app_list=wrong_list)
         Application.objects.create(company='other application 2',
-                                   app_list=wrong_appList)
+                                   app_list=wrong_list)
 
         # Pass our request through the home_page
-        response = self.client.get('/applications/{0}/'.format(correct_appList.id))  # noqa
+        response = self.client.get('/applications/{0}/'.format(correct_list.id))  # noqa
         # Confirm the first object is in the decoded content of the response.
         self.assertContains(response, 'appy 1')
         self.assertContains(response, 'appy 2')
@@ -82,6 +82,33 @@ class ApplicationViewTest(TestCase):
 
 
 class NewApplicationTest(TestCase):
+
+    def test_can_save_a_POST_request_to_an_existing_list(self):
+        other_list = AppList.objects.create()
+        correct_list = AppList.objects.create()
+
+        self.client.post(
+            '/applications/{0}/add_application'.format(correct_list.id),
+            data={'application_company': 'A new app for an existing list'}
+        )
+
+        self.assertEqual(Application.objects.count(), 1)
+        new_application = Application.objects.first()
+        self.assertEqual(new_application.company,
+                         'A new app for an existing list')
+        self.assertEqual(new_application.app_list, correct_list)
+
+    def test_redirects_to_list_views(self):
+        other_list = AppList.objects.create()
+        correct_list = AppList.objects.create()
+
+        response = self.client.post(
+            '/applications/{0}/add_application'.format(correct_list.id),
+            data={'application_company': 'A new app for an existing list'}
+        )
+
+        self.assertRedirects(response,
+                             '/applications/{0}/'.format(correct_list.id))
 
     def test_saving_a_POST_request(self):
         self.client.post(

@@ -5,9 +5,12 @@
 {% block form_action %}/applications/{{ appList.id }}/add_application{% endblock %}
 
 {% block list %}
-  <ul id="application_list">
+  <ul id="application_list" class="collapsible popout" data-collapsible="accordion">
     {% for application in appList.application_set.all %}
-    <tr><td>{{ forloop.counter }}: {{ application.company }}</td></tr>
+    <li>
+      <div class="collapsible-header">{{ forloop.counter }}: {{ application.company }}</div>
+      <div class="collapsible-body">Try-hard Brooklyn fanny pack listicle, tilde next level Echo Park raw denim cliche cray quinoa shabby chic Shoreditch brunch lo-fi. Kale chips Echo Park +1 hoodie. Tattooed Intelligentsia mlkshk, kogi pour-over Portland raw denim locavore direct trade. Meh gastropub craft beer seitan master cleanse butcher, readymade vinyl quinoa. Occupy distillery Vice sartorial squid vinyl. Seitan viral street art heirloom sustainable tattooed gluten-free meh, 8-bit disrupt Wes Anderson biodiesel mustache. Neutra food truck chillwave direct trade, organic swag brunch next level Odd Future.</div>
+    </li>
     {% endfor %}
   </ul>
 {% endblock %}

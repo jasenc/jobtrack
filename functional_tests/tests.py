@@ -11,10 +11,10 @@ class NewVisitorTest(StaticLiveServerTestCase):
     def tearDown(self):
         self.browser.quit()
 
-    def check_for_row_in_application_table(self, row_text):
-        table = self.browser.find_element_by_id('application_list')
-        rows = table.find_elements_by_tag_name('tr')
-        self.assertIn(row_text, [row.text for row in rows])
+    def check_for_item_in_application_list(self, row_text):
+        appList = self.browser.find_element_by_id('application_list')
+        items = appList.find_elements_by_tag_name('li')
+        self.assertIn(row_text, [item.text for item in items])
 
     def test_can_start_an_application_and_retrieve_it_later(self):
         # Adeline wakes up in the middle of the night and starts worrrying
@@ -58,7 +58,7 @@ class NewVisitorTest(StaticLiveServerTestCase):
         adeline_list_url = self.browser.current_url
         ## Use assertRegex to check REST URLs
         self.assertRegex(adeline_list_url, '/applications/.+')
-        self.check_for_row_in_application_table('1: Meridian')
+        self.check_for_item_in_application_list('1: Meridian')
 
         # There is still a form for a new application inviting her to add more.
         # She types "Facebook" into the company name of the application.
@@ -78,8 +78,8 @@ class NewVisitorTest(StaticLiveServerTestCase):
         # form.
 
         # The page updates again, and now shows both items on her list.
-        self.check_for_row_in_application_table('1: Meridian')
-        self.check_for_row_in_application_table('2: Facebook')
+        self.check_for_item_in_application_list('1: Meridian')
+        self.check_for_item_in_application_list('2: Facebook')
 
         # Now a new user, Francis, comes along to the site.
 

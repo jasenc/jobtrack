@@ -1,19 +1,13 @@
-<!DOCTYPE html>
-<html>
-  <head>
-    <meta charset="utf-8">
-    <title>Job Track</title>
-  </head>
-  <body>
-    <h1>Your Applications List</h1>
-    <form method="POST" action="/applications/{{ appList.id }}/add_application">
-      <input name="application_company" id="id_new_application" placeholder="Enter an application" />
-      {% csrf_token %}
-    </form>
-    <table id="id_application_table">
-      {% for application in appList.application_set.all %}
-      <tr><td>{{ forloop.counter }}: {{ application.company }}</td></tr>
-      {% endfor %}
-    </table>
-  </body>
-</html>
+{% extends 'base.html' %}
+
+{% block header_text %}Your Applications List{% endblock %}
+
+{% block form_action %}/applications/{{ appList.id }}/add_application{% endblock %}
+
+{% block table %}
+  <table id="id_application_table">
+    {% for application in appList.application_set.all %}
+    <tr><td>{{ forloop.counter }}: {{ application.company }}</td></tr>
+    {% endfor %}
+  </table>
+{% endblock %}

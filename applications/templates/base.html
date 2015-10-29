@@ -1,16 +1,39 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
   <head>
     <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>Job Track</title>
+    <link href="/static/css/materialize.min.css" rel="stylesheet">
+    <link href="/static/css/main.css" rel="stylesheet">
   </head>
   <body>
-    <h1>{% block header_text %}{% endblock %}</h1>
-    <form method="POST" action="{% block form_action %}{% endblock %}">
-      <input name="application_company" id="id_new_application" placeholder="Enter an application" />
-      {% csrf_token %}
-    </form>
-    {% block table %}
-    {% endblock %}
+    <header>
+      <nav>
+        <div class="nav-wrapper">
+          <a href="#" class="brand-logo">Job Track</a>
+        </div>
+      </nav>
+    </header>
+    <div class="container">
+      <div class="row">
+        <div class="col s6 offset-s3">
+          <div class="center-align">
+            <h1>{% block header_text %}{% endblock %}</h1>
+            <form method="POST" action="{% block form_action %}{% endblock %}">
+              <input name="application_company" id="id_new_application" placeholder="Enter an application" />
+              {% csrf_token %}
+            </form>
+          </div>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col s6 offset-s3">
+          {% block table %}
+          {% endblock %}
+        </div>
+      </div>
+    </div>
   </body>
 </html>

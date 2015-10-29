@@ -12,7 +12,7 @@ class NewVisitorTest(StaticLiveServerTestCase):
         self.browser.quit()
 
     def check_for_row_in_application_table(self, row_text):
-        table = self.browser.find_element_by_id('id_application_table')
+        table = self.browser.find_element_by_id('application_list')
         rows = table.find_elements_by_tag_name('tr')
         self.assertIn(row_text, [row.text for row in rows])
 
@@ -28,14 +28,14 @@ class NewVisitorTest(StaticLiveServerTestCase):
         # She notices the page title and header properly mention the name of
         # the site.
         self.assertIn('Job Track', self.browser.title)
-        header_text = self.browser.find_element_by_tag_name('h1').text
+        header_text = self.browser.find_element_by_tag_name('h3').text
         self.assertIn('Applications', header_text)
 
         # She is invited by an application item straight away.
-        inputbox = self.browser.find_element_by_id('id_new_application')
+        inputbox = self.browser.find_element_by_id('company_name')
         self.assertEqual(
             inputbox.get_attribute('placeholder'),
-            'Enter an application'
+            'Google'
         )
 
         # She types "Meridian" into the company name of the application.
@@ -62,7 +62,7 @@ class NewVisitorTest(StaticLiveServerTestCase):
 
         # There is still a form for a new application inviting her to add more.
         # She types "Facebook" into the company name of the application.
-        inputbox = self.browser.find_element_by_id('id_new_application')
+        inputbox = self.browser.find_element_by_id('company_name')
         inputbox.send_keys('Facebook')
         inputbox.send_keys(Keys.ENTER)
 
@@ -95,7 +95,7 @@ class NewVisitorTest(StaticLiveServerTestCase):
         self.assertNotIn('Facebook', page_text)
 
         # Francis starts a new list by entering a new application.
-        inputbox = self.browser.find_element_by_id('id_new_application')
+        inputbox = self.browser.find_element_by_id('company_name')
         inputbox.send_keys('Google')
         inputbox.send_keys(Keys.ENTER)
 
@@ -117,7 +117,7 @@ class NewVisitorTest(StaticLiveServerTestCase):
         self.browser.set_window_size(1024, 768)
 
         # She notices the input box is nicely centered.
-        inputbox = self.browser.find_element_by_id('id_new_application')
+        inputbox = self.browser.find_element_by_id('company_name')
         self.assertAlmostEqual(
             inputbox.location['x'] + inputbox.size['width'] / 2,
             512,
@@ -127,7 +127,7 @@ class NewVisitorTest(StaticLiveServerTestCase):
         # She starts a new list and notices the input is nicely centered there
         # as well.
         inputbox.send_keys('testing\n')
-        inputbox = self.browser.find_element_by_id('id_new_application')
+        inputbox = self.browser.find_element_by_id('company_name')
         self.assertAlmostEqual(
             inputbox.location['x'] + inputbox.size['width'] / 2,
             512,

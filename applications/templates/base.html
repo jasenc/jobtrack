@@ -7,6 +7,8 @@
     <title>Job Track</title>
     <link href="/static/css/materialize.min.css" rel="stylesheet">
     <link href="/static/css/main.css" rel="stylesheet">
+    <script src="/static/js/jquery-2.1.4.min.js"></script>
+    <script src="/static/js/materialize.min.js"></script>
   </head>
   <body>
     <header>
@@ -18,19 +20,22 @@
     </header>
     <div class="container">
       <div class="row">
-        <div class="col s6 offset-s3">
+        <div class="col s8 offset-s2 card-panel hoverable">
           <div class="center-align">
-            <h1>{% block header_text %}{% endblock %}</h1>
+            <h3>{% block header_text %}{% endblock %}</h1>
             <form method="POST" action="{% block form_action %}{% endblock %}">
-              <input name="application_company" id="id_new_application" placeholder="Enter an application" />
+              <div class="input-field col s12">
+                <input name="application_company" placeholder="Google" id="company_name" type="text" class="validate"/>
+                <label for="company_name">Company Name</label>
+              </div>
               {% csrf_token %}
             </form>
           </div>
         </div>
       </div>
       <div class="row">
-        <div class="col s6 offset-s3">
-          {% block table %}
+        <div class="col s6 offset-s3 card-panel hoverable">
+          {% block list %}
           {% endblock %}
         </div>
       </div>

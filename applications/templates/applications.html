@@ -4,10 +4,10 @@
 
 {% block form_action %}/applications/{{ appList.id }}/add_application{% endblock %}
 
-{% block table %}
-  <table id="id_application_table">
+{% block list %}
+  <ul id="application_list">
     {% for application in appList.application_set.all %}
     <tr><td>{{ forloop.counter }}: {{ application.company }}</td></tr>
     {% endfor %}
-  </table>
+  </ul>
 {% endblock %}

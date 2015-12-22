@@ -1,0 +1,12 @@
+ansicolors==1.0.2
+configparser==3.5.0b2
+Django==1.8.4
+django-bower==5.0.4
+env-tools==2.0.0
+futures==2.2.0
+psutil==2.2.1
+psycopg2==2.6.1
+selenium==2.48.0
+six==1.10.0
+tini==3.0.1
+wheel==0.24.0

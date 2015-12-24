@@ -23,6 +23,18 @@ Clone this repo and start a new virtualenv with python3.
 
 `$ pip install -r requirements.txt`
 
+You'll need to create a user and database in Postgres
+
+```
+$ createuser -d jobtrack -P
+Enter password for new role: jobtrack
+Enter it again: jobtrack
+$ createdb -O jobtrack jobtrack
+```
+
+And then try to run it!
+
+`$ python manage.py runserver`
 
 
 ### Authors

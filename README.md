@@ -19,7 +19,11 @@ on top of your job search.
 
 ## Installation
 
-Coming soon!
+Clone this repo and start a new virtualenv with python3.
+
+`$ pip install -r requirements.txt`
+
+
 
 ### Authors
 

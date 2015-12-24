@@ -4,6 +4,7 @@ Django==1.8.4
 django-bower==5.0.4
 env-tools==2.0.0
 futures==2.2.0
+gunicorn==19.4.1
 psutil==2.2.1
 psycopg2==2.6.1
 selenium==2.48.0

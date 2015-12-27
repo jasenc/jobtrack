@@ -16,11 +16,6 @@ def deploy():
     _update_database(source_folder)
 
 
-def _create_directory_structure_if_necessary(site_folder):
-    for subfolder in ('env', 'static'):
-        run('mkdir -p %s/%s' % (site_folder, subfolder))
-
-
 def _get_latest_source(source_folder):
     if exists(source_folder + '/.git'):
         run('cd %s && git fetch' % (source_folder,))
@@ -30,8 +25,13 @@ def _get_latest_source(source_folder):
     run('cd %s && git reset --hard %s' % (source_folder, current_commit))
 
 
+def _create_directory_structure_if_necessary(site_folder):
+    for subfolder in ('env', 'static'):
+        run('mkdir -p %s/%s' % (site_folder, subfolder))
+
+
 def _update_settings(source_folder, site_name):
-    settings_path = source_folder + 'jobtrack/settings.py'
+    settings_path = source_folder + '/jobtrack/settings.py'
     sed(settings_path, "DEBUG = True", "DEBUG = False")
     sed(settings_path,
         'ALLOWED_HOSTS =.+$',
